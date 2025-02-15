@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amigos</title>
+    <!-- Conectar el archivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/friends.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="friends-title">Amigos</h1>
+        <div class="friends-info">
+            <p>Comparte tu enlace único con tus amigos para ganar recompensas:</p>
+
+            <!-- Mostrar enlace único -->
+            <div class="link-container">
+                <p id="inviteLink">Tu enlace: <span class="referral-link">http://127.0.0.1:5000/register?ref=user123</span></p>
+                <button id="copyLink" class="invite-button">
+                    <img src="/static/images/copy-icon.png" alt="Copiar" class="copy-icon">
+                    Copiar enlace
+                </button>
+            </div>
+
+            <!-- Mostrar número de amigos referidos -->
+            <p class="friends-count">
+                <img src="/static/images/friends-icon.png" alt="Amigos" class="friends-icon">
+                Amigos referidos: <span id="referralCount">24</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Notificación de enlace copiado -->
+    <div id="notification" class="notification hidden">
+        <span>¡Enlace copiado al portapapeles!</span>
+    </div>
+
+    <script>
+        // Lógica para copiar el enlace
+        document.getElementById("copyLink").addEventListener("click", () => {
+            const referralLink = document.querySelector(".referral-link").textContent;
+            navigator.clipboard.writeText(referralLink).then(() => {
+                // Mostrar notificación
+                const notification = document.getElementById("notification");
+                notification.classList.remove("hidden");
+                setTimeout(() => {
+                    notification.classList.add("hidden");
+                }, 3000); // Ocultar notificación después de 3 segundos
+            });
+        });
+        const userId = "12345"; // Reemplaza con el ID del usuario
+        const referralLink = `http://127.0.0.1:5000/register?ref=${userId}`;
+        document.getElementById("inviteLink").textContent = referralLink;
+    </script>
+
+    <!-- Barra de navegación -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <img src="/static/images/minado.png" alt="Mine" class="nav-icon">
+            <span>Mine</span>
+        </a>
+        <a href="/boost" class="nav-item">
+            <img src="/static/images/Boost.png" alt="Boost" class="nav-icon">
+            <span>Boost</span>
+        </a>
+        <a href="/friends" class="nav-item active">
+            <img src="/static/images/Friends.png" alt="Friends" class="nav-icon">
+            <span>Friends</span>
+        </a>
+        <a href="/tasks" class="nav-item">
+            <img src="/static/images/Task.png" alt="Tasks" class="nav-icon">
+            <span>Tasks</span>
+        </a>
+        <a href="/wallet" class="nav-item">
+            <img src="/static/images/Wallet.png" alt="Wallet" class="nav-icon">
+            <span>Wallet</span>
+        </a>
+    </nav>
+</body>
+</html>

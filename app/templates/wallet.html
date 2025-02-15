@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billetera</title>
+    <!-- Conectar el archivo CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/wallet.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="wallet-title">Billetera</h1>
+        <p>Consulta tu saldo y actividad reciente:</p>
+
+        <!-- Tarjeta de Saldo -->
+        <div class="wallet-card">
+            <div class="wallet-icon">
+                <img src="/static/images/Wallet.png" alt="Wallet">
+            </div>
+            <div class="wallet-info">
+                <h3>Saldo Actual</h3>
+                <p id="totalPoints">0 puntos</p>
+            </div>
+        </div>
+
+        <!-- Historial de Transacciones -->
+        <div class="transactions">
+            <h2>Historial de Transacciones</h2>
+            <ul id="transactionHistory">
+                <!-- Las transacciones se generan dinámicamente -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Datos simulados (esto se reemplazará con datos reales del backend)
+        const transactions = [
+            { type: "Misión: Síguenos en Instagram", points: 50 },
+            { type: "Misión diaria: Ver anuncio", points: 30 },
+            { type: "Boost activado", points: 20 }
+        ];
+
+        // Mostrar el saldo total
+        const totalPoints = transactions.reduce((sum, transaction) => sum + transaction.points, 0);
+        document.getElementById("totalPoints").textContent = `${totalPoints} puntos`;
+
+        // Mostrar el historial de transacciones
+        const transactionHistory = document.getElementById("transactionHistory");
+        transactions.forEach(transaction => {
+            const listItem = document.createElement("li");
+            listItem.className = "transaction-item";
+            listItem.innerHTML = `
+                <span class="transaction-type">${transaction.type}</span>
+                <span class="transaction-points">+${transaction.points} puntos</span>
+            `;
+            transactionHistory.appendChild(listItem);
+        });
+        async function loadTransactions() {
+    const response = await fetch("/api/user/profile?telegram_id=12345"); // Reemplaza con el ID del usuario
+    if (response.ok) {
+        const data = await response.json();
+        const transactionHistory = document.getElementById("transactionHistory");
+        transactionHistory.innerHTML = ""; // Limpiar la lista
+
+        data.transactions.forEach(transaction => {
+            const listItem = document.createElement("li");
+            listItem.className = "transaction-item";
+            listItem.innerHTML = `
+                <span class="transaction-type">${transaction.type}</span>
+                <span class="transaction-points">+${transaction.points} puntos</span>
+            `;
+            transactionHistory.appendChild(listItem);
+        });
+    } else {
+        alert("Error al cargar el historial de transacciones.");
+    }
+}
+
+loadTransactions();
+    </script>
+
+    <!-- Barra de navegación -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <img src="/static/images/minado.png" alt="Mine" class="nav-icon">
+            <span>Mine</span>
+        </a>
+        <a href="/boost" class="nav-item">
+            <img src="/static/images/Boost.png" alt="Boost" class="nav-icon">
+            <span>Boost</span>
+        </a>
+        <a href="/friends" class="nav-item">
+            <img src="/static/images/Friends.png" alt="Friends" class="nav-icon">
+            <span>Friends</span>
+        </a>
+        <a href="/tasks" class="nav-item">
+            <img src="/static/images/Task.png" alt="Tasks" class="nav-icon">
+            <span>Tasks</span>
+        </a>
+        <a href="/wallet" class="nav-item active">
+            <img src="/static/images/Wallet.png" alt="Wallet" class="nav-icon">
+            <span>Wallet</span>
+        </a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,201 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/static/images/Fondo.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%; /* Ajusta el ancho según sea necesario */
+    max-width: 1200px; /* Limita el ancho máximo */
+    margin: 0 auto; /* Centra el contenedor horizontalmente */
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center; /* Centra el texto dentro del contenedor */
+}
+
+/* Título */
+.friends-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #FFD700;
+    text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.8);
+}
+
+/* Contenedor de información */
+.friends-info {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.6);
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    max-width: 450px; /* Limita el ancho máximo */
+    margin: 0 auto; /* Centra el contenedor de información */
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Enlace de referencia */
+.link-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.referral-link {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 1rem;
+    word-wrap: break-word;
+    max-width: 400px;
+    margin-bottom: 10px;
+}
+
+/* Botón de copiar enlace */
+.invite-button {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    font-size: 1.2rem;
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.invite-button:hover {
+    background: linear-gradient(90deg, #FFC107, #FF8C00);
+    transform: scale(1.05);
+}
+
+.copy-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Contador de amigos referidos */
+.friends-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #FFD700;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.friends-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Notificación */
+.notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.notification.show {
+    opacity: 1;
+}
+
+/* Barra de navegación */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    margin: 0 10px 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    flex: 1;
+    padding: 10px;
+    transition: background 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.nav-item.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+}
+
+.nav-icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 5px;
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .friends-info {
+        width: 95%;
+        max-width: 400px;
+    }
+
+    .invite-button {
+        width: 90%;
+    }
+}
+
+@media (max-width: 480px) {
+    .friends-title {
+        font-size: 2rem;
+    }
+
+    .invite-button {
+        padding: 10px;
+        font-size: 1rem;
+    }
+}
+@keyframes slideIn {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+.notification {
+    animation: slideIn 0.5s ease-out;
+}

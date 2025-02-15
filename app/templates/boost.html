@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boost</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/boost.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 class="boost-title">Boost</h1>
+        <p>Activa un Boost para duplicar tus puntos por 10 segundos.</p>
+
+        <!-- Tarjeta de Boost -->
+        <div class="boost-card">
+            <div class="boost-icon">
+                <img src="/static/images/Boost.png" alt="Boost">
+            </div>
+            <div class="boost-info">
+                <h3>Boost de Puntos</h3>
+                <p>Duplica tus puntos por 10 segundos.</p>
+            </div>
+            <button id="boostButton" class="boost-button">Activar Boost</button>
+        </div>
+
+        <!-- Estado del Boost -->
+        <p id="boostStatus" class="boost-status">Estado del Boost: <span>No activo</span></p>
+    </div>
+
+    <script>
+        let isBoostActive = false;
+
+        document.getElementById("boostButton").addEventListener("click", () => {
+            if (isBoostActive) {
+                alert("El Boost ya está activo.");
+                return;
+            }
+
+            isBoostActive = true;
+            document.getElementById("boostStatus").innerHTML = 'Estado del Boost: <span class="active">Activo</span>';
+            setTimeout(() => {
+                isBoostActive = false;
+                document.getElementById("boostStatus").innerHTML = 'Estado del Boost: <span>No activo</span>';
+                alert("El Boost ha terminado.");
+            }, 10000); // Desactivar Boost después de 10 segundos
+        });
+        document.getElementById("boostButton").addEventListener("click", async () => {
+    const response = await fetch("/api/boost/activate", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ telegram_id: "12345" }), // Reemplaza con el ID del usuario
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        alert("Boost activado correctamente.");
+    } else {
+        alert("Error al activar el Boost.");
+    }
+});
+    </script>
+
+    <!-- Barra de navegación -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <img src="/static/images/minado.png" alt="Mine" class="nav-icon">
+            <span>Mine</span>
+        </a>
+        <a href="/boost" class="nav-item active">
+            <img src="/static/images/Boost.png" alt="Boost" class="nav-icon">
+            <span>Boost</span>
+        </a>
+        <a href="/friends" class="nav-item">
+            <img src="/static/images/Friends.png" alt="Friends" class="nav-icon">
+            <span>Friends</span>
+        </a>
+        <a href="/tasks" class="nav-item">
+            <img src="/static/images/Task.png" alt="Tasks" class="nav-icon">
+            <span>Tasks</span>
+        </a>
+        <a href="/wallet" class="nav-item">
+            <img src="/static/images/Wallet.png" alt="Wallet" class="nav-icon">
+            <span>Wallet</span>
+        </a>
+    </nav>
+</body>
+</html>

@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technobot - Inicio</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-3235111935829729~6427386557"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Encabezado -->
+        <header class="header">
+            <div class="profile">
+                <img src="/static/images/robot3.png" alt="User" class="profile-img">
+                <span class="username">(TCN)</span>
+            </div>
+        </header>
+
+        <!-- Moneda central -->
+        <main class="main-content">
+            <img src="/static/images/criptobot.png" alt="Coin" class="coin" id="coin">
+            <div class="counter">
+                <span id="counter-value">0</span>
+            </div>
+            <div class="progress">
+                <span class="progress-label">Progreso al Nivel <span id="next-level">2</span>:</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <span class="progress-text" id="progress-text">0 / 1,000</span>
+            </div>
+            <div class="level">
+                <span>Nivel: </span>
+                <span id="level-value">1</span>
+            </div>
+            <!-- Botones de multiplicadores -->
+            <div class="boost-buttons">
+                <button id="x2IncomeButton" class="boost-button">RECOMPENSA X2</button>
+                <button id="powerSurgeButton" class="boost-button">RECOMPENSA X4</button>
+            </div>
+        </main>
+
+        <!-- Barra de navegación inferior -->
+        <nav class="bottom-nav">
+            <a href="/" class="nav-item">
+                <img src="/static/images/minado.png" alt="Mine" class="nav-icon">
+                <span>Mine</span>
+            </a>
+            <a href="/boost" class="nav-item">
+                <img src="/static/images/Boost.png" alt="Boost" class="nav-icon">
+                <span>Boost</span>
+            </a>
+            <a href="/friends" class="nav-item">
+                <img src="/static/images/Friends.png" alt="Friends" class="nav-icon">
+                <span>Friends</span>
+            </a>
+            <a href="/tasks" class="nav-item">
+                <img src="/static/images/Task.png" alt="Tasks" class="nav-icon">
+                <span>Tasks</span>
+            </a>
+            <a href="/wallet" class="nav-item">
+                <img src="/static/images/Wallet.png" alt="Wallet" class="nav-icon">
+                <span>Wallet</span>
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Variables para controlar los anuncios
+let interstitialTimer;
+let points = parseInt(localStorage.getItem("totalPoints")) || 0;
+let level = 1;
+let isBoostActive = false;
+let pointsMultiplier = 1;
+let x2IncomeActive = false;
+let powerSurgeActive = false;
+
+// Puntos requeridos para cada nivel
+const levelRequirements = [0, 1000, 5000, 20000, 50000, 100000]; // Nivel 1 a 6
+
+// Función para sumar puntos
+function addPoints() {
+    const pointsPerClick = level * (isBoostActive ? 2 : 1) * pointsMultiplier;
+    points += pointsPerClick;
+
+    // Guardar los puntos en localStorage
+    localStorage.setItem("totalPoints", points);
+
+    // Actualizar el contador de puntos
+    document.getElementById("counter-value").textContent = points.toLocaleString();
+
+    // Actualizar la barra de progreso
+    updateProgressBar();
+
+    // Verificar si el usuario subió de nivel
+    checkLevelUp();
+}
+
+// Función para actualizar la barra de progreso
+function updateProgressBar() {
+    const nextLevel = level + 1;
+    const requiredPoints = levelRequirements[nextLevel - 1];
+    const progress = (points / requiredPoints) * 100;
+
+    document.getElementById("progress-fill").style.width = `${progress}%`;
+    document.getElementById("progress-text").textContent = `${points.toLocaleString()} / ${requiredPoints.toLocaleString()}`;
+    document.getElementById("next-level").textContent = nextLevel;
+}
+
+// Función para verificar si el usuario subió de nivel
+function checkLevelUp() {
+    const nextLevel = level + 1;
+    if (nextLevel <= 6 && points >= levelRequirements[nextLevel - 1]) {
+        level++;
+        document.getElementById("level-value").textContent = level;
+        alert(`¡Felicidades! Has alcanzado el nivel ${level}.`);
+        updateProgressBar();
+    }
+}
+
+// Escuchar clics en la moneda
+document.getElementById("coin").addEventListener("click", addPoints);
+
+// Escuchar eventos del Boost desde la página de Boost
+window.addEventListener("message", function (event) {
+    if (event.data === "activateBoost") {
+        isBoostActive = true;
+        setTimeout(() => {
+            isBoostActive = false;
+        }, 10000); // Desactivar Boost después de 10 segundos
+    }
+});
+
+// Inicializar la barra de progreso
+updateProgressBar();
+
+// Función para mostrar un anuncio simulado
+function showAd(callback) {
+    // Simulación de un anuncio
+    alert("Mira un anuncio...");
+    setTimeout(() => {
+        alert("¡Anuncio completado!");
+        callback();
+    }, 3000); // Simula un anuncio de 3 segundos
+}
+
+// Manejar el botón x2 Income
+document.getElementById("x2IncomeButton").addEventListener("click", () => {
+    if (x2IncomeActive) {
+        alert("El x2 Income ya está activo.");
+        return;
+    }
+    showAd(() => {
+        pointsMultiplier = 2;
+        x2IncomeActive = true;
+        setTimeout(() => {
+            pointsMultiplier = 1;
+            x2IncomeActive = false;
+            alert("El x2 Income ha terminado.");
+        }, 360000); // 6 minutos
+    });
+});
+
+// Manejar el botón Power Surge
+document.getElementById("powerSurgeButton").addEventListener("click", () => {
+    if (powerSurgeActive) {
+        alert("El Power Surge ya está activo.");
+        return;
+    }
+    showAd(() => {
+        pointsMultiplier = 4;
+        powerSurgeActive = true;
+        setTimeout(() => {
+            pointsMultiplier = 1;
+            powerSurgeActive = false;
+            alert("El Power Surge ha terminado.");
+        }, 60000); // 1 minuto
+    });
+});
+
+// Función para cargar un anuncio intersticial
+function loadInterstitialAd() {
+    const interstitialAd = new google.ads.InterstitialAd({
+        adUnitId: 'ca-app-pub-3940256099942544/1033173712', // ID de prueba
+    });
+
+    interstitialAd.load().then(() => {
+        console.log('Interstitial ad loaded');
+        return interstitialAd;
+    }).catch((error) => {
+        console.error('Failed to load interstitial ad:', error);
+    });
+}
+
+// Función para mostrar un anuncio intersticial
+function showInterstitialAd() {
+    const interstitialAd = loadInterstitialAd();
+
+    interstitialAd.show().then(() => {
+        console.log('Interstitial ad shown');
+    }).catch((error) => {
+        console.error('Failed to show interstitial ad:', error);
+    });
+}
+
+// Iniciar el temporizador para mostrar anuncios cada 5 minutos
+function startInterstitialTimer() {
+    interstitialTimer = setInterval(() => {
+        showInterstitialAd();
+    }, 300000); // 5 minutos = 300,000 milisegundos
+}
+
+// Detener el temporizador (opcional)
+function stopInterstitialTimer() {
+    clearInterval(interstitialTimer);
+}
+
+// Iniciar el temporizador cuando la página cargue
+window.addEventListener("load", () => {
+    startInterstitialTimer();
+});
+    // Función para sumar puntos cuando el usuario hace clic en la moneda
+    document.getElementById("coin").addEventListener("click", async () => {
+        const telegramId = "12345"; // Reemplaza con el ID del usuario (puedes obtenerlo de la sesión o de un input oculto)
+        
+        // Hacer una solicitud POST a la API para sumar puntos
+        const response = await fetch("/api/points/add", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ telegram_id: telegramId, points: 10 }), // Sumar 10 puntos
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            // Actualizar el contador de puntos en la interfaz
+            document.getElementById("counter-value").textContent = data.points;
+        } else {
+            alert("Error al sumar puntos. Inténtalo de nuevo.");
+        }
+    });
+    document.getElementById("x2IncomeButton").addEventListener("click", async () => {
+    const response = await fetch("/api/points/multiply", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ telegram_id: "12345", multiplier: 2 }), // Aplicar x2
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        alert("Multiplicador x2 activado.");
+    } else {
+        alert("Error al activar el multiplicador.");
+    }
+});
+</script>
+    </script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/static/images/Fondo.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+/* Título */
+.boost-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #FFD700;
+    text-shadow: 2px 2px 8px rgba(255, 215, 0, 0.8);
+}
+
+/* Tarjeta de Boost */
+.boost-card {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+    margin-bottom: 20px;
+}
+
+.boost-icon img {
+    width: 50px;
+    height: 50px;
+}
+
+.boost-info {
+    flex: 1;
+    margin: 0 20px;
+    text-align: left;
+}
+
+.boost-info h3 {
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.boost-info p {
+    margin: 5px 0 0;
+    font-size: 1rem;
+    color: #ccc;
+}
+
+/* Botón de Boost */
+.boost-button {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    font-size: 1rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.boost-button:hover {
+    background: linear-gradient(90deg, #FFC107, #FF8C00);
+    transform: scale(1.05);
+}
+
+/* Estado del Boost */
+.boost-status {
+    font-size: 1.2rem;
+}
+
+.boost-status span.active {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+/* Barra de navegación */
+.bottom-nav {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    margin: 0 10px 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    flex: 1;
+    padding: 10px;
+    transition: background 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.nav-item.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+}
+
+.nav-icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 5px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .boost-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .boost-info {
+        margin: 10px 0;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .boost-title {
+        font-size: 2rem;
+    }
+
+    .boost-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}

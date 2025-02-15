@@ -1,0 +1,271 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/static/images/Fondo.png') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Encabezado */
+.header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.username {
+    font-size: 1rem;
+}
+
+/* Contenido principal */
+.main-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.coin {
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    margin-bottom: 20px;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.counter {
+    font-size: 2rem;
+    margin: 20px 0;
+}
+
+.progress {
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.progress-label {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.progress-bar {
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    height: 10px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-fill {
+    background: #FFD700;
+    height: 100%;
+    width: 0%; /* Inicialmente vacía */
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    font-size: 0.9rem;
+    margin-top: 5px;
+    display: block;
+    color: #ccc;
+}
+
+.level {
+    font-size: 1.2rem;
+    margin-top: 10px;
+    color: #FFD700;
+}
+
+/* Barra de navegación */
+.bottom-nav {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 15px;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 20px;
+    margin: 20px 0 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+}
+
+.nav-item {
+    text-align: center;
+    color: #fff;
+    text-decoration: none;
+    flex: 1;
+    padding: 10px;
+    transition: background 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+.nav-item.active {
+    background: rgba(255, 215, 0, 0.2);
+    border-radius: 10px;
+}
+
+.nav-icon {
+    width: 35px;
+    height: 35px;
+    margin-bottom: 5px;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .coin {
+        width: 150px;
+        height: 150px;
+    }
+
+    .counter {
+        font-size: 1.5rem;
+    }
+
+    .progress {
+        width: 90%;
+    }
+
+    /* Ajustar el encabezado para móviles */
+    .header {
+        margin-top: 10px; /* Mover el encabezado más arriba */
+        margin-bottom: 10px;
+    }
+
+    /* Ajustar la barra de navegación para móviles */
+    .bottom-nav {
+        margin-top: 10px;
+        margin-bottom: 5px; /* Mover la barra de navegación más abajo */
+    }
+}
+
+@media (max-width: 480px) {
+    .coin {
+        width: 120px;
+        height: 120px;
+    }
+
+    .counter {
+        font-size: 1.2rem;
+    }
+
+    .progress-label {
+        font-size: 0.9rem;
+    }
+
+    .progress-text {
+        font-size: 0.8rem;
+    }
+
+    .level {
+        font-size: 1rem;
+    }
+
+    /* Ajustar el encabezado para móviles pequeños */
+    .header {
+        margin-top: 2px; /* Mover el encabezado aún más arriba */
+        margin-bottom: 2px;
+    }
+
+    /* Ajustar la barra de navegación para móviles pequeños */
+    .bottom-nav {
+        margin-top: 5px;
+        margin-bottom: 0; /* Mover la barra de navegación aún más abajo */
+    }
+}
+
+/* Dentro de main.css */
+.boost-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.boost-button {
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #000;
+    font-size: 1rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.boost-button:hover {
+    background: linear-gradient(90deg, #FFC107, #FF8C00);
+    transform: scale(1.05);
+}
+.boost-button.active {
+    border: 2px solid #4CAF50; /* Borde verde cuando está activo */
+}
+@keyframes flash {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+.boost-button.active {
+    animation: flash 1s infinite;
+}
+@media (max-width: 480px) {
+    .boost-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+}

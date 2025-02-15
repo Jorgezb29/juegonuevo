@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misiones</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/tasks.css') }}">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-app-pub-3235111935829729~6427386557"
+    crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="container">
+        <h1 class="tasks-title">Misiones</h1>
+        <p>Completa estas misiones para ganar recompensas: Technobot se financia con anuncios, el 45% de lo recaudado sera para sorteos semanales a los usuarios, 45% para liquidez del token y 10% para creadores.
+            Technobot agradece su colaboracion al mirar anuncios y contribuir al proyecto
+        </p>
+
+        <!-- Lista de misiones -->
+        <ul id="missionList" class="mission-list">
+            <!-- Las misiones se generan dinámicamente -->
+        </ul>
+
+        <!-- Mensaje de recompensa -->
+        <p id="rewardMessage" class="reward-message hidden">¡Felicidades! Has ganado <span id="rewardPoints"></span> puntos.</p>
+    </div>
+
+    <script>
+        // Lista de misiones
+        const missions = [
+            { id: 1, name: "Síguenos en Instagram", icon: "logoinstagram.png", link: "https://instagram.com/tu_perfil", reward: 50, completed: false },
+            { id: 2, name: "Síguenos en X (Twitter)", icon: "logox.png", link: "https://twitter.com/tu_perfil", reward: 50, completed: false },
+            { id: 3, name: "Suscríbete a nuestro canal de YouTube", icon: "logoyoutube.png", link: "https://youtube.com/tu_canal", reward: 100, completed: false },
+            { id: 4, name: "Síguenos en Facebook", icon: "logofacebook.png", link: "https://facebook.com/tu_perfil", reward: 50, completed: false },
+            { id: 5, name: "Ayúdanos mirando un anuncio", icon: "logovideo.png", link: "#", reward: 30, completed: false, isAd: true }
+        ];
+
+        // Mostrar las misiones en la página
+        const missionList = document.getElementById("missionList");
+        missions.forEach(mission => {
+            const listItem = document.createElement("li");
+            listItem.className = "mission-card";
+            listItem.innerHTML = `
+                <div class="mission-icon">
+                    <img src="/static/images/${mission.icon}" alt="${mission.name}">
+                </div>
+                <div class="mission-info">
+                    <h3>${mission.name}</h3>
+                    <p>Recompensa: ${mission.reward} puntos</p>
+                </div>
+                <button class="mission-button ${mission.completed ? 'completed' : ''}" onclick="completeMission(${mission.id})">
+                    ${mission.completed ? 'Completada' : (mission.isAd ? 'Ver anuncio' : 'Completar')}
+                </button>
+            `;
+            missionList.appendChild(listItem);
+        });
+
+        // Completar una misión
+        function completeMission(missionId) {
+            const mission = missions.find(m => m.id === missionId);
+            if (mission.completed) {
+                alert("Esta misión ya fue completada.");
+                return;
+            }
+
+            if (mission.isAd) {
+                // Mostrar un anuncio de recompensa
+                showRewardedAd(() => {
+                    finalizeMission(mission);
+                });
+            } else {
+                // Abrir el enlace para seguir la cuenta
+                window.open(mission.link, "_blank");
+                finalizeMission(mission);
+            }
+        }
+
+        // Función para finalizar una misión y otorgar la recompensa
+        function finalizeMission(mission) {
+            mission.completed = true;
+
+            // Guardar recompensa en localStorage
+            let totalPoints = parseInt(localStorage.getItem("totalPoints")) || 0;
+            totalPoints += mission.reward;
+            localStorage.setItem("totalPoints", totalPoints);
+
+            // Mostrar mensaje de recompensa
+            document.getElementById("rewardPoints").textContent = mission.reward;
+            document.getElementById("rewardMessage").classList.remove("hidden");
+
+            // Recargar la página después de 3 segundos
+            setTimeout(() => location.reload(), 3000);
+        }
+
+        // Función para cargar un anuncio de recompensa
+        function loadRewardedAd() {
+            const rewardedAd = new google.ads.RewardedAd({
+                adUnitId: 'ca-app-pub-3940256099942544/5224354917', // ID de prueba
+            });
+
+            rewardedAd.load().then(() => {
+                console.log('Rewarded ad loaded');
+                return rewardedAd;
+            }).catch((error) => {
+                console.error('Failed to load rewarded ad:', error);
+            });
+        }
+
+        // Función para mostrar un anuncio de recompensa
+        function showRewardedAd(onReward) {
+            const rewardedAd = loadRewardedAd();
+
+            rewardedAd.show().then(() => {
+                console.log('Rewarded ad shown');
+                onReward();
+            }).catch((error) => {
+                console.error('Failed to show rewarded ad:', error);
+            });
+        }
+    // Función para completar una misión
+    async function completeMission(missionId) {
+        const telegramId = "12345"; // Reemplaza con el ID del usuario
+
+        // Hacer una solicitud POST a la API para completar la misión
+        const response = await fetch("/api/missions/complete", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ telegram_id: telegramId, mission_id: missionId }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert(`¡Misión completada! Ganaste ${data.points} puntos.`);
+            location.reload(); // Recargar la página para actualizar la lista de misiones
+        } else {
+            alert("Error al completar la misión. Inténtalo de nuevo.");
+        }
+    }
+    async function loadMissions() {
+    const response = await fetch("/api/missions");
+    if (response.ok) {
+        const data = await response.json();
+        const missionList = document.getElementById("missionList");
+        missionList.innerHTML = ""; // Limpiar la lista
+
+        data.missions.forEach(mission => {
+            const listItem = document.createElement("li");
+            listItem.className = "mission-card";
+            listItem.innerHTML = `
+                <div class="mission-icon">
+                    <img src="/static/images/${mission.icon}" alt="${mission.name}">
+                </div>
+                <div class="mission-info">
+                    <h3>${mission.name}</h3>
+                    <p>Recompensa: ${mission.reward} puntos</p>
+                </div>
+                <button class="mission-button" onclick="completeMission(${mission.id})">
+                    Completar
+                </button>
+            `;
+            missionList.appendChild(listItem);
+        });
+    } else {
+        alert("Error al cargar las misiones.");
+    }
+}
+
+loadMissions();
+</script>
+    </script>
+
+    <!-- Barra de navegación -->
+    <nav class="bottom-nav">
+        <a href="/" class="nav-item">
+            <img src="/static/images/minado.png" alt="Mine" class="nav-icon">
+            <span>Mine</span>
+        </a>
+        <a href="/boost" class="nav-item">
+            <img src="/static/images/Boost.png" alt="Boost" class="nav-icon">
+            <span>Boost</span>
+        </a>
+        <a href="/friends" class="nav-item">
+            <img src="/static/images/Friends.png" alt="Friends" class="nav-icon">
+            <span>Friends</span>
+        </a>
+        <a href="/tasks" class="nav-item active">
+            <img src="/static/images/Task.png" alt="Tasks" class="nav-icon">
+            <span>Tasks</span>
+        </a>
+        <a href="/wallet" class="nav-item">
+            <img src="/static/images/Wallet.png" alt="Wallet" class="nav-icon">
+            <span>Wallet</span>
+        </a>
+    </nav>
+</body>
+</html>
