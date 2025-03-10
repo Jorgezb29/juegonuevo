@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: juegonuevo
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python run.py"
+    region: oregon
