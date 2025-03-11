@@ -1,21 +1,14 @@
 import os
 from decouple import config  # Para usar variables de entorno
 
-# Obtener la ruta base del proyecto
-BASE_DIR = os.path.abspath(os.path.dirname(__file__))
-
 class Config:
-    # Clave secreta para la aplicación (usar una clave segura en producción)
     SECRET_KEY = config('SECRET_KEY', default='your-secret-key')
-
-    # Configuración de la base de datos MySQL
     SQLALCHEMY_DATABASE_URI = f"mysql://{config('MYSQL_USER')}:{config('MYSQL_PASSWORD')}@{config('MYSQL_HOST')}/{config('MYSQL_DB')}"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False  # Evitar advertencias de Flask-SQLAlchemy
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
-# Prueba de carga de variables de entorno
+# Prueba de carga de variables de entorno (esto solo es útil para pruebas locales)
 if __name__ == "__main__":
     try:
-        # Prueba de carga de variables de entorno
         SECRET_KEY = config('SECRET_KEY')
         MYSQL_HOST = config('MYSQL_HOST')
         MYSQL_USER = config('MYSQL_USER')
