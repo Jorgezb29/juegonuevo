@@ -1,7 +1,7 @@
 services:
   - type: web
-    name: your-app-name
+    name: juegonuevo
     env: python
     buildCommand: 'pip install -r requirements.txt'
-    startCommand: 'gunicorn wsgi:app'
+    startCommand: 'gunicorn run:app'
     plan: free
