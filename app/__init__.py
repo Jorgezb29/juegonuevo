@@ -6,7 +6,7 @@ def create_app():
     # Cargar configuración desde un objeto de configuración
     app.config.from_object('config.Config')
 
-    # Registrar rutas desde un blueprint (asegúrate de tener el blueprint en otro archivo)
+    # Registrar rutas desde un blueprint
     from .routes import main  # Asegúrate de que 'routes' y 'main' existan
     app.register_blueprint(main)
 
